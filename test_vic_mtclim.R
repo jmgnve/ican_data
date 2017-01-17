@@ -155,6 +155,7 @@ close(file_vic)
 
 ### RUN VIC MTCLIM AT THIS POINT ###
 
+# src/./vicNl -g test_iha/params/global_param
 
 
 
