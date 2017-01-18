@@ -123,6 +123,13 @@ for ( i in syear:eyear) {
       
       wind <- run[id_bil_file]/scale
       
+      
+      
+      # JMG: SHOULD WE ADD SOME CHECK THAT TMAX > TMIN EVERYWHERE???
+      # WHAT SHOULD WE DO IF TMAX <= TMIN???
+      
+      
+      
       # Correct precipitation
       
       Tmean <- (tmax+tmin)/2
@@ -178,7 +185,6 @@ for ( i in syear:eyear) {
       
     }
     
-    
     # Close connection
     
     close(file_vic)
@@ -186,6 +192,4 @@ for ( i in syear:eyear) {
   }
   
 } # end i
-
-
 
