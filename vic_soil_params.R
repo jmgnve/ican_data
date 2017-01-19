@@ -93,8 +93,7 @@ write_soil_params = function(path_sim, soil_param, init_file) {
 
 # Path for output
 
-path_sim <- "//unixhome/users/jmg/Projects/VIC_MTCLIM/test_real"
-
+path_sim <- "//unixhome/users/jmg/projects/vic_mtclim/test_real"
 
 # Read global soil parameter file
 
@@ -119,8 +118,6 @@ df_norway <- read.csv("InnenforNorge.txt", header = TRUE, sep = ";", col.names =
 
 # Loop through grid cells in Norway
 
-counter <- 1
-
 for (inorway in 1:nrow(df_norway)) {
   
   # Find closest point in the global parameter set
@@ -139,16 +136,17 @@ for (inorway in 1:nrow(df_norway)) {
   
   # Replace global parameters with local if available
   
-  soil_norway$lat <-  df_norway$lat[inorway]
-  soil_norway$lon <-  df_norway$lon[inorway]
-  soil_norway$elev <- df_norway$elev[inorway]
+  soil_norway$gridcel <- df_norway$bil_id[inorway]
+  soil_norway$lat     <- df_norway$lat[inorway]
+  soil_norway$lon     <- df_norway$lon[inorway]
+  soil_norway$elev    <- df_norway$elev[inorway]
   soil_norway$off_gmt <- df_norway$lon[inorway]*24/360
 
   ### soil_norway$annual_prec ########################### ADD THIS WHEN AVAILABLE
   
   # Append data to file
   
-  if (counter == 1) {
+  if (inorway == 1) {
     write_soil_params(path_sim, soil_norway, TRUE)
   } else {
     write_soil_params(path_sim, soil_norway, FALSE)
@@ -156,11 +154,9 @@ for (inorway in 1:nrow(df_norway)) {
   
   # Write progress
   
-  if (counter%%1000 == 0) {
-    cat(paste("Wrote line ", counter, sep = ""))
+  if (inorway%%1000 == 0) {
+    print(paste("Wrote line ", counter, sep = ""))
   }
-  
-  counter <- counter + 1
   
 }
 
