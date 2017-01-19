@@ -167,7 +167,7 @@ for ( i in syear:eyear) {
   
   # Write data to binary files for VIC
   
-  for (nfile in 1:10) {     ### length(id_bil_file)) {   ### *** #########################################
+  for (nfile in 1:length(id_bil_file)) {
     
     # Open vic input files for writing
     
