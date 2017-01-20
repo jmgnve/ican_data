@@ -1,3 +1,30 @@
+#########################################################################################################
+
+# List of vegetation parameters needed for vic.4.2.d (for each grid cell)
+# http://vic.readthedocs.io/en/vic.4.2.d/Documentation/VegParam/
+# There are more options than listed below.
+
+# For each grid cell:
+#
+# gridcel - Identifier (clear what this should be)
+# Nveg - Number of vegetation classes (either from global or local info)
+#
+# Repeats for each vegetation tile in the grid cell:
+#
+# veg_class - Vegetation class defined in "Vegetation Library File"
+# Cv - Fraction of grid cell covered by vegetation tile (either from global or local info)
+#
+# For each vegetation tile, repeats for each defined root zone:
+#
+# root_depth - Root zone thickness (either from global or local info)
+# root_fract - Fraction of root in the current root zone (either from global or local info)
+#
+# Optional (if VEGPARAM_LAI == TRUE in global parameter file):
+#
+# LAI - Leaf Area Index, one per month (either from global or local info)
+
+
+
 
 #########################################################################################################
 
