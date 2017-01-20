@@ -22,7 +22,7 @@ write_met_input <- function(path_sim, syear, eyear) {
   
   # Delete all files in the "path_met" folder
   
-  dummy <- file.remove(file.path(path_met,list.files(path_met)))
+  dummy <- file.remove(file.path(path_met, list.files(path_met)))
   
   # Names for vic input files (coordinates from InnaforNorge.txt)
   
@@ -33,7 +33,7 @@ write_met_input <- function(path_sim, syear, eyear) {
   
   for (irow in 1:nrow(df_in_norway)) {
     
-    id_bil_file[irow] <- df_in_norway$TABID[irow]+1
+    id_bil_file[irow] <- df_in_norway$TABID[irow] + 1
     
     lat <- format(df_in_norway$POINT_Y[irow], nsmall = 5, digits = 5)
     lon <- format(df_in_norway$POINT_X[irow], nsmall = 5, digits = 5)
@@ -47,13 +47,13 @@ write_met_input <- function(path_sim, syear, eyear) {
   # Loop over years
   
   pr_acc <- 0  # Array for computing accumulated precipitation
+  ndays <- 0  # Number of days
   
   nyear <- length(syear:eyear)
   
   for ( i in syear:eyear) {
     
     days <- seq(ISOdate(i,1,1),ISOdate(i ,12,31),"day")
-    ndays <- length(days)
     s1 <- as.POSIXlt(days)$year+1900
     s2 <- as.POSIXlt(days)$mon+1
     s3 <- as.POSIXlt(days)$mday
@@ -162,44 +162,53 @@ write_met_input <- function(path_sim, syear, eyear) {
         # Accumulate precipitation
         
         pr_acc <- pr_acc + pr
+        ndays <- ndays + 1
         
       }  # end j
+      
+      # Write data to binary files for VIC
+      
+      for (nfile in 1:length(id_bil_file)) {
+        
+        # Open vic input files for writing
+        
+        file_vic <- file(fn_vic_input[nfile], "ab")
+        
+        # Convert to integer and append to file
+        
+        data_vec <- as.integer(data_all[, nfile] * 100)
+          
+        writeBin(data_vec, file_vic, endian = "little", size = 2)
+        
+#         for (irow in 1:nrow(data_all)) {
+#           
+#           data_vec <- as.integer(data_all[irow, nfile] * 100)
+#           
+#           writeBin(data_vec, file_vic, endian = "little", size = 2)
+#           
+#         }
+        
+        # Close connection
+        
+        close(file_vic)
+        
+        # Write progress
+        
+        if (nfile%%5000 == 0) {
+          print(paste("Wrote file ", nfile, sep = ""))
+        }
+        
+      }
       
       print(time_name)
       
     } # end m
     
-    # Write data to binary files for VIC
-    
-    for (nfile in 1:length(id_bil_file)) {
-      
-      # Open vic input files for writing
-      
-      file_vic <- file(fn_vic_input[nfile], "ab")
-      
-      # Convert to integer and append to file
-      
-      for (irow in 1:nrow(data_all)) {
-        
-        data_vec <- as.integer(data_all[irow, nfile] * 100)
-        
-        writeBin(data_vec, file_vic, endian = "little", size = 2)
-        
-        print(irow)
-        
-      }
-      
-      # Close connection
-      
-      close(file_vic)
-      
-    }
-    
   } # end i
   
   # Compute annual average precipitation
   
-  nyear <- nrow(pr_acc) / 365
+  nyear <- ndays / 365
   
   annual_prec <- pr_acc / nyear
   

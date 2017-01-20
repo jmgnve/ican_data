@@ -43,7 +43,7 @@ write_veg_params <- function(path_sim) {
   for (irow in 1:nrow(df_norway)) {
     
     gridcel <- df_norway$bil_id[irow]
-    ntiles  <- 2
+    ntiles  <- 3
     
     header <- paste(gridcel, ntiles, "\n", sep = " ")
     
@@ -53,10 +53,12 @@ write_veg_params <- function(path_sim) {
       cat(sprintf(header), file = file_veg, append = TRUE)
     }
     
-    cat(sprintf("     8 0.102679 0.10 0.10 1.00 0.65 0.50 0.25\n"), file = file_veg, append = TRUE)
-    cat(sprintf("       0.312 0.413 0.413 0.413 0.413 0.488 0.975 1.150 0.625 0.312 0.312 0.312\n"), file = file_veg, append = TRUE)
-    cat(sprintf("    10 0.897321 0.10 0.10 1.00 0.70 0.50 0.20\n"), file = file_veg, append = TRUE)
-    cat(sprintf("       0.212 0.262 0.275 0.338 0.750 1.275 0.950 0.650 0.450 0.288 0.237 0.212\n"), file = file_veg, append = TRUE)
+    cat(sprintf("     7 0.107 0.30 0.60 0.70 0.40\n"), file = file_veg, append = TRUE)
+    cat(sprintf("       0.837 1.500 2.037 2.975 3.675 3.512 3.375 3.087 3.138 2.312 1.450 0.800\n"), file = file_veg, append = TRUE)
+    cat(sprintf("    10 0.772 0.30 0.80 0.70 0.20\n"), file = file_veg, append = TRUE)
+    cat(sprintf("       0.237 0.287 0.400 0.600 0.837 1.000 0.625 0.450 0.338 0.300 0.262 0.212\n"), file = file_veg, append = TRUE)
+    cat(sprintf("    11 0.121 0.30 0.50 0.70 0.50\n"), file = file_veg, append = TRUE)
+    cat(sprintf("       0.148 0.349 0.732 1.237 1.110 0.887 1.459 1.549 0.782 0.305 0.135 0.100\n"), file = file_veg, append = TRUE)
     
     # Write progress
     

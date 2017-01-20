@@ -84,65 +84,68 @@ append_soil_file = function(path_sim, soil_param, init_file) {
   
   # WRITE PARAMETERS TO A FILE
   
-  if (init_file == TRUE) {
-    cat(sprintf("%.0f ", soil_param$run_cell), file = filename, append = FALSE)
-  } else {
-    cat(sprintf("%.0f ", soil_param$run_cell), file = filename, append = TRUE)
-  }
+  fmt = paste(c("%.0f ", "%.0f ", "%.5f ", "%.5f ", rep("%.4f ", 49), "\n"), collapse = "")
   
-  cat(sprintf("%.0f ", soil_param$gridcel), file = filename, append = TRUE)
-  cat(sprintf("%.5f ", soil_param$lat), file = filename, append = TRUE)
-  cat(sprintf("%.5f ", soil_param$lon), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$infilt), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$D1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$D2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$D3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$D4), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$expt1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$expt2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$expt3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Ksat1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Ksat2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Ksat3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$phi_s1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$phi_s2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$phi_s3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$init_moist1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$init_moist2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$init_moist3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$elev), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$depth1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$depth2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$depth3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$avg_T), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$dp), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$bubble1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$bubble2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$bubble3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$quartz1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$quartz2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$quartz3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$bulk_density1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$bulk_density2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$bulk_density3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$soil_density1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$soil_density2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$soil_density3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$off_gmt), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Wcr_FRACT1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Wcr_FRACT2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Wcr_FRACT3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Wpwp_FRACT1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Wpwp_FRACT2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$Wpwp_FRACT3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$rough), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$snow_rough), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$annual_prec), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$resid_moist1), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$resid_moist2), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$resid_moist3), file = filename, append = TRUE)
-  cat(sprintf("%.4f ", soil_param$fs_active), file = filename, append = TRUE)
-  cat(sprintf("\n"), file = filename, append = TRUE)
+  values_str <- sprintf(fmt,
+                        soil_param$run_cell,
+                        soil_param$gridcel, 
+                        soil_param$lat, 
+                        soil_param$lon, 
+                        soil_param$infilt, 
+                        soil_param$D1, 
+                        soil_param$D2, 
+                        soil_param$D3, 
+                        soil_param$D4,
+                        soil_param$expt1, 
+                        soil_param$expt2, 
+                        soil_param$expt3, 
+                        soil_param$Ksat1, 
+                        soil_param$Ksat2, 
+                        soil_param$Ksat3, 
+                        soil_param$phi_s1, 
+                        soil_param$phi_s2,
+                        soil_param$phi_s3, 
+                        soil_param$init_moist1, 
+                        soil_param$init_moist2, 
+                        soil_param$init_moist3, 
+                        soil_param$elev, 
+                        soil_param$depth1, 
+                        soil_param$depth2,
+                        soil_param$depth3, 
+                        soil_param$avg_T, 
+                        soil_param$dp, 
+                        soil_param$bubble1, 
+                        soil_param$bubble2,
+                        soil_param$bubble3, 
+                        soil_param$quartz1, 
+                        soil_param$quartz2, 
+                        soil_param$quartz3, 
+                        soil_param$bulk_density1, 
+                        soil_param$bulk_density2,
+                        soil_param$bulk_density3,
+                        soil_param$soil_density1, 
+                        soil_param$soil_density2, 
+                        soil_param$soil_density3,
+                        soil_param$off_gmt, 
+                        soil_param$Wcr_FRACT1, 
+                        soil_param$Wcr_FRACT2, 
+                        soil_param$Wcr_FRACT3,
+                        soil_param$Wpwp_FRACT1, 
+                        soil_param$Wpwp_FRACT2, 
+                        soil_param$Wpwp_FRACT3, 
+                        soil_param$rough,
+                        soil_param$snow_rough, 
+                        soil_param$annual_prec, 
+                        soil_param$resid_moist1, 
+                        soil_param$resid_moist2, 
+                        soil_param$resid_moist3, 
+                        soil_param$fs_active)
+  
+  if (init_file == TRUE) {
+    cat(values_str, file = filename, append = FALSE)
+  } else {
+    cat(values_str, file = filename, append = TRUE)
+  }
   
 }
 
@@ -210,7 +213,7 @@ write_soil_params <- function(path_sim, annual_prec) {
     # Write progress
     
     if (inorway%%1000 == 0) {
-      print(paste("Wrote line ", counter, sep = ""))
+      print(paste("Wrote line ", inorway, sep = ""))
     }
     
   }
