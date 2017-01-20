@@ -6,22 +6,22 @@
 
 # For each grid cell:
 #
-# gridcel - Identifier (clear what this should be)
-# Nveg - Number of vegetation classes (either from global or local info)
+# gridcel - Identifier (jmg: clear what this should be)
+# Nveg - Number of vegetation classes (jmg: either from global or local info)
 #
 # Repeats for each vegetation tile in the grid cell:
 #
 # veg_class - Vegetation class defined in "Vegetation Library File"
-# Cv - Fraction of grid cell covered by vegetation tile (either from global or local info)
+# Cv - Fraction of grid cell covered by vegetation tile (jmg: either from global or local info)
 #
 # For each vegetation tile, repeats for each defined root zone:
 #
-# root_depth - Root zone thickness (either from global or local info)
-# root_fract - Fraction of root in the current root zone (either from global or local info)
+# root_depth - Root zone thickness (jmg: either from global or local info)
+# root_fract - Fraction of root in the current root zone (jmg: either from global or local info)
 #
 # Optional (if VEGPARAM_LAI == TRUE in global parameter file):
 #
-# LAI - Leaf Area Index, one per month (either from global or local info)
+# LAI - Leaf Area Index, one per month (jmg: either from global or local info)
 
 
 
