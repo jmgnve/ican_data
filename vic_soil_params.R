@@ -152,7 +152,7 @@ append_soil_file = function(path_sim, soil_param, init_file) {
 
 #########################################################################################################
 
-write_soil_params <- function(path_sim, annual_prec) {
+write_soil_params <- function(path_sim) {
   
   # Read global soil parameter file
   
@@ -174,6 +174,13 @@ write_soil_params <- function(path_sim, annual_prec) {
   col_names = c("na", "bil_id", "lon", "lat", "elev")
   
   df_norway <- read.csv("InnenforNorge.txt", header = TRUE, sep = ";", col.names = col_names)
+  
+  # Read file with annual average precipitation
+  
+  filename <- file.path(path_sim, "annual_prec.txt")
+  
+  df_prec <- read.csv(filename, header = TRUE, sep = ";")
+  
   
   # Loop through grid cells in Norway
   
@@ -200,7 +207,7 @@ write_soil_params <- function(path_sim, annual_prec) {
     soil_norway$lon         <- df_norway$lon[inorway]
     soil_norway$elev        <- df_norway$elev[inorway]
     soil_norway$off_gmt     <- df_norway$lon[inorway]*24/360
-    soil_norway$annual_prec <- annual_prec[inorway]
+    soil_norway$annual_prec <- df_prec$annual_prec[inorway]
     
     # Append data to file
     

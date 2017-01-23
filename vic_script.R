@@ -14,7 +14,7 @@ source("vic_global_params.R")
 # Start and end year for model input
 
 syear <- 1991
-eyear <- 1991
+eyear <- 1992
 
 # Path for output
 
@@ -22,11 +22,11 @@ path_sim <- "/data02/Ican/vic_sim/past_1km"
 
 # Write forcing data
 
-annual_prec <- write_met_input(path_sim, syear, eyear)
+write_met_input(path_sim, syear, eyear)
 
 # Write soil parameters
 
-write_soil_params(path_sim, annual_prec)
+write_soil_params(path_sim)
 
 # Write vegetation parameters
 
