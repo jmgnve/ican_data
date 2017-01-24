@@ -12,7 +12,9 @@ Files from Ingjerd are found in these folders:
 
 The vic simulations are stored on l-klima in this folder:
 
-`/data02/Ican/vic_sim/past_1km/`
+`/data02/Ican/vic_sim/`
+
+The subfolder `/past_1km/` contains simulations for the historic period spanning from 1982-01-01 to 2012-12-31.
 
 ## Notes about script related to the vic model
 
