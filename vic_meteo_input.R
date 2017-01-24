@@ -58,6 +58,8 @@ write_met_input <- function(path_sim, syear, eyear) {
   
   nyear <- length(syear:eyear)
   
+  missing_files <- c()
+  
   for ( i in syear:eyear) {
     
     days <- seq(ISOdate(i,1,1),ISOdate(i ,12,31),"day")
@@ -90,42 +92,75 @@ write_met_input <- function(path_sim, syear, eyear) {
       # tmax
       
       filename <- paste(path_tmax_bil,"/",i,"/tx24h06_",time_name,sep="")
-      indata <- file(filename,"rb")
-      run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
-      #str(run)
-      close(indata)
       
-      tmax <- (run[id_bil_file]-2731)/scale   +   3  ##############  HACK
+      if (file.exists((filename))) {
+      
+        indata <- file(filename,"rb")
+        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
+        close(indata)
+        
+        tmax <- (run[id_bil_file]-2731)/scale   +   3  ##############  HACK
+        
+        
+      } else {
+        
+        missing_files <- c(missing_files, filename)
+        
+      }
       
       #tmin
       
       filename <- paste(path_tmin_bil,"/",i,"/tn24h06_",time_name,sep="")
-      indata <- file(filename,"rb")
-      run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
-      #str(run)
-      close(indata)
       
-      tmin <- (run[id_bil_file]-2731)/scale   -   3  ##############  HACK
+      if (file.exists((filename))) {
+        
+        indata <- file(filename,"rb")
+        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
+        close(indata)
+        
+        tmin <- (run[id_bil_file]-2731)/scale   -   3  ##############  HACK
+        
+      } else {
+        
+        missing_files <- c(missing_files, filename)
+        
+      }
       
       # prcp
       
       filename <- paste(path_prec_bil,"/",i,"/rr_",time_name,sep="")
-      indata <- file(filename,"rb")
-      run <- readBin(indata, integer(), n=1195*1550, size=2)   # for precipitation
-      #str(run)
-      close(indata)
       
-      pr <- run[id_bil_file]/scale
+      if (file.exists((filename))) {
+        
+        indata <- file(filename,"rb")
+        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for precipitation
+        close(indata)
+        
+        pr <- run[id_bil_file]/scale
+        
+      } else {
+        
+        missing_files <- c(missing_files, filename)
+        
+      }
       
       # wind
       
       filename <- paste(path_wind_bil,"/",i,"/ffm24h06_",time_name,sep="")
-      indata <- file(filename,"rb")
-      run <- readBin(indata, integer(), n=1195*1550, size=2)   # for wind
-      #str(run)
-      close(indata)
       
-      wind <- run[id_bil_file]/scale
+      if (file.exists((filename))) {
+        
+        indata <- file(filename,"rb")
+        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for wind
+        close(indata)
+        
+        wind <- run[id_bil_file]/scale
+        
+      } else {
+        
+        missing_files <- c(missing_files, filename)
+        
+      }
       
       # check consistency between tmax and tmin
       
@@ -227,6 +262,24 @@ write_met_input <- function(path_sim, syear, eyear) {
                           annual_prec = annual_prec)
   
   filename <- file.path(path_sim, "annual_prec.txt")
+  
+  write.table(df_output, file = filename, quote = FALSE, sep = ";", row.names = FALSE)
+  
+  # Write data frame with missing files
+  
+  df_output <- data.frame(missing_files = missing_files)
+  
+  filename <- file.path(path_sim, "missing_files.txt")
+  
+  write.table(df_output, file = filename, quote = FALSE, sep = ";", row.names = FALSE)
+  
+  # Write dates to file
+  
+  time_meteodata <- seq(ISOdate(syear,1,1,6,0,0),ISOdate(eyear,12,31,6,0,0), by = "days")
+  
+  df_output <- data.frame(times = time_meteodata)
+  
+  filename <- file.path(path_sim, "time_meteodata.txt")
   
   write.table(df_output, file = filename, quote = FALSE, sep = ";", row.names = FALSE)
   

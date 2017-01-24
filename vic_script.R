@@ -3,6 +3,10 @@
 
 #############################################################################
 
+# Clear workspace
+
+rm(list=ls())
+
 # Input for past climate
 
 source("vic_meteo_input.R")
@@ -13,8 +17,8 @@ source("vic_global_params.R")
 
 # Start and end year for model input
 
-syear <- 1991
-eyear <- 1992
+syear <- 1982
+eyear <- 2012
 
 # Path for output
 
