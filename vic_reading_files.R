@@ -72,49 +72,29 @@ read_met_input <- function(filename) {
 
 # Read binary vic output file
 
-read_met_output <- function(filename) {
+read_met_output <- function(filename,nyear) {
   
-  # Check file length
+  #ptm <- proc.time()
   
   file_vic <- file(filename, "rb")
   
-  nall <- 0
-  
-  while (length(readBin(file_vic, integer(), size = 2)) > 0) {
-    nall <- nall + 1
-  }
-  
+  all <- readBin(file_vic, integer(), n=366*nyear*8, size=2,signed = TRUE) 
   close(file_vic)
   
   # Read data
-  
+  nall <- length(all)
   nrec <- nall/8
+  selec <- seq(1,(nrec-1)*8+1,8)
   
-  prec <- matrix(data=NA, nrow=nrec, ncol=1)
-  tair <- matrix(data=NA, nrow=nrec, ncol=1)
-  iswr <- matrix(data=NA, nrow=nrec, ncol=1)
-  ilwr <- matrix(data=NA, nrow=nrec, ncol=1)
-  pres <- matrix(data=NA, nrow=nrec, ncol=1)
-  qair <- matrix(data=NA, nrow=nrec, ncol=1)
-  vp   <- matrix(data=NA, nrow=nrec, ncol=1)
-  wind <- matrix(data=NA, nrow=nrec, ncol=1)
-  
-  file_vic <- file(filename, "rb")
-  
-  for (i in 1:(nrec)) {
-    
-    prec[i] <- readBin(file_vic, integer(), size = 2, signed = FALSE) / 40
-    tair[i] <- readBin(file_vic, integer(), size = 2, signed = TRUE) / 100
-    iswr[i] <- readBin(file_vic, integer(), size = 2, signed = FALSE) / 50
-    ilwr[i] <- readBin(file_vic, integer(), size = 2, signed = FALSE) / 80
-    pres[i] <- readBin(file_vic, integer(), size = 2, signed = FALSE) / 100
-    qair[i] <- readBin(file_vic, integer(), size = 2, signed = FALSE) / 100000
-    vp[i]   <- readBin(file_vic, integer(), size = 2, signed = FALSE) / 100
-    wind[i] <- readBin(file_vic, integer(), size = 2, signed = FALSE) / 100
-    
-  }
-  
-  close(file_vic)
+  prec <- all[selec]/40
+  tair <- all[(selec+1)]/100
+  iswr <- all[(selec+2)]/50
+  ilwr <- all[(selec+3)]/80
+  pres <- all[(selec+4)]/100
+  qair <- all[(selec+5)]/100000
+  vp   <- all[(selec+6)]/100
+  wind <- all[(selec+7)]/100
+
   
   # Return results
   
