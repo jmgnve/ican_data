@@ -17,6 +17,10 @@ write_met_input <- function(path_sim, syear, eyear) {
   # Path for storing the results
   
   path_met <- file.path(path_sim, "forcing")
+
+  # Path for old vic results
+
+  path_res <- file.path(path_sim, "results")
   
   #########################################################################################################
   
@@ -25,6 +29,12 @@ write_met_input <- function(path_sim, syear, eyear) {
   print(paste("Delete old files in folder ", path_met))
   
   dummy <- file.remove(file.path(path_met, list.files(path_met)))
+  
+  # Delete all files in the "path_res" folder
+  
+  print(paste("Delete old files in folder ", path_res))
+  
+  dummy <- file.remove(file.path(path_sim, list.files(path_res)))
   
   # Names for vic input files (coordinates from InnenforNorge.txt)
   
