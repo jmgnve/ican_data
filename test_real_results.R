@@ -5,7 +5,7 @@ source("vic_reading_files.R")
 
 # Read output
 
-ifile = 2
+ifile = 100
 
 path_sim = "/data02/Ican/vic_sim/past_1km"
 

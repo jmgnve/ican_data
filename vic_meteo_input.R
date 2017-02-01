@@ -99,7 +99,7 @@ write_met_input <- function(path_sim, syear, eyear) {
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
         close(indata)
         
-        tmax <- (run[id_bil_file]-2731)/scale   +   3  ##############  HACK
+        tmax <- (run[id_bil_file]-2731)/scale
         
         
       } else {
@@ -118,7 +118,7 @@ write_met_input <- function(path_sim, syear, eyear) {
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
         close(indata)
         
-        tmin <- (run[id_bil_file]-2731)/scale   -   3  ##############  HACK
+        tmin <- (run[id_bil_file]-2731)/scale
         
       } else {
         
