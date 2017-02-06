@@ -32,11 +32,11 @@ file <- paste(path_sim,"/results/metdata_",lat, "_", lon, sep="")
 
 data <- read_met_output(file,40)
 
-tm <- round((data$tair[selec,1]*10 + 2731), 0)
-rr <- round(data$prec[selec,1]*10,0)
-wind <- round(data$wind[selec,1]*10,0)
-srad <- round(data$iswr[selec,1]*0.0864 *10,0)  # convert from w/m2 to MJ/m2/day
-vp <- round(data$vp[selec,1]*1000*10,0)         # convert from kPa to Pa
+tm <- round((data$tair[selec]*10 + 2731), 0)
+rr <- round(data$prec[selec]*10,0)
+wind <- round(data$wind[selec]*10,0)
+srad <- round(data$iswr[selec]*0.0864 *10,0)  # convert from w/m2 to MJ/m2/day
+vp <- round(data$vp[selec]*1000*10,0)         # convert from kPa to Pa
 
 
  if(i==1) {
