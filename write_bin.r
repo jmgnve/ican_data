@@ -9,7 +9,7 @@ s1 <- as.POSIXlt(days)$year+1900
 s2 <-   as.POSIXlt(days)$mon+1
 s3 <-   as.POSIXlt(days)$mday
 
-data <- read.table(paste(variable,"_",syear,"_",eyear,".txt",sep=""),header=F)
+data <- read.table(paste(directory,variable,"_",syear,"_",eyear,".txt",sep=""),header=F)
 str(data)
 
  for ( j in 1:ndays) {
