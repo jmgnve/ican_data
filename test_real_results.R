@@ -5,13 +5,13 @@ source("vic_reading_files.R")
 
 # Read output
 
-ifile = 100
+ifile = 10000
 
 path_sim = "/data02/Ican/vic_sim/past_1km"
 
 filenames <- list.files(file.path(path_sim, "results"))
 
-data_jan <- read_met_output(file.path(path_sim, "results", filenames[ifile]))
+data_jan <- read_met_output(file.path(path_sim, "results", filenames[ifile]), 22)
 
 
 # Plot results

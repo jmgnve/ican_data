@@ -73,7 +73,7 @@ write_global_param <- function(path_sim, syear, eyear) {
   qqcat("#######################################################################\n", file = filename, append = TRUE)
   qqcat("#PLAPSE		TRUE	# This controls how VIC computes air pressure when air pressure is not supplied as an input forcing: TRUE = set air pressure to sea level pressure, lapsed to grid cell average elevation; FALSE = set air pressure to constant 95.5 kPa (as in all versions of VIC pre-4.1.1)\n", file = filename, append = TRUE)
   qqcat("#SW_PREC_THRESH		0	# Minimum daily precip [mm] that can cause dimming of incoming shortwave; default = 0.\n", file = filename, append = TRUE)
-  qqcat("#MTCLIM_SWE_CORR	TRUE    # This controls VICs estimates of incoming shortwave in the presence of snow; TRUE = adjust incoming shortwave for snow albedo effect; FALSE = do not adjust shortwave; default = TRUE\n", file = filename, append = TRUE)
+  qqcat("MTCLIM_SWE_CORR	FALSE    # This controls VICs estimates of incoming shortwave in the presence of snow; TRUE = adjust incoming shortwave for snow albedo effect; FALSE = do not adjust shortwave; default = TRUE\n", file = filename, append = TRUE)
   qqcat("#VP_ITER		VP_ITER_ALWAYS	# This controls VICs iteration between estimates of shortwave and vapor pressure:\n", file = filename, append = TRUE)
   qqcat("#			# VP_ITER_NEVER = never iterate; make estimates separately\n", file = filename, append = TRUE)
   qqcat("#			# VP_ITER_ALWAYS = always iterate once\n", file = filename, append = TRUE)

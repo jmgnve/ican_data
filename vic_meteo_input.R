@@ -34,7 +34,7 @@ write_met_input <- function(path_sim, syear, eyear) {
   
   print(paste("Delete old files in folder ", path_res))
   
-  dummy <- file.remove(file.path(path_sim, list.files(path_res)))
+  dummy <- file.remove(file.path(path_res, list.files(path_res)))
   
   # Names for vic input files (coordinates from InnenforNorge.txt)
   
