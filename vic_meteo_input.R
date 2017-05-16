@@ -111,6 +111,7 @@ write_met_input <- function(path_sim, syear, eyear) {
         
         tmax <- (run[id_bil_file]-2731)/scale
         
+        if (any(tmax > 100) | any(tmax < -100)) { stop("tmax out of range") }
         
       } else {
         
@@ -130,6 +131,9 @@ write_met_input <- function(path_sim, syear, eyear) {
         
         tmin <- (run[id_bil_file]-2731)/scale
         
+        if (any(tmin > 100) | any(tmin < -100)) { stop("tmin out of range") }
+        
+        
       } else {
         
         missing_files <- c(missing_files, filename)
@@ -148,6 +152,8 @@ write_met_input <- function(path_sim, syear, eyear) {
         
         pr <- run[id_bil_file]/scale
         
+        if (any(pr > 1000) | any(pr < -10)) { stop("pr out of range") }
+        
       } else {
         
         missing_files <- c(missing_files, filename)
@@ -165,6 +171,8 @@ write_met_input <- function(path_sim, syear, eyear) {
         close(indata)
         
         wind <- run[id_bil_file]/scale
+        
+        if (any(wind > 1000) | any(wind < -10)) { stop("wind out of range") }
         
       } else {
         
