@@ -45,12 +45,10 @@ write_veg_params <- function(path_sim) {
     gridcel <- df_norway$bil_id[irow]
     ntiles  <- 3
     
-    header <- paste(gridcel, ntiles, "\n", sep = " ")
-    
     if (irow == 1) {
-      cat(sprintf(header), file = file_veg, append = FALSE)
+      cat(sprintf("%d %d \n", gridcel, ntiles), file = file_veg, append = FALSE)
     } else {
-      cat(sprintf(header), file = file_veg, append = TRUE)
+      cat(sprintf("%d %d \n", gridcel, ntiles), file = file_veg, append = TRUE)
     }
     
     cat(sprintf("     7 0.107 0.30 0.60 0.70 0.40\n"), file = file_veg, append = TRUE)
