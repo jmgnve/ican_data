@@ -173,7 +173,7 @@ write_soil_params <- function(path_sim) {
   
   col_names = c("na", "bil_id", "lon", "lat", "elev")
   
-  df_norway <- read.csv("InnenforNorge.txt", header = TRUE, sep = ";", col.names = col_names)
+  df_norway <- read.csv("InnenforNorge_20170516.txt", header = TRUE, sep = ";", col.names = col_names)
   
   # Read file with annual average precipitation
   

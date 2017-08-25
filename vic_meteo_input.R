@@ -36,11 +36,11 @@ write_met_input <- function(path_sim, syear, eyear) {
   
   dummy <- file.remove(file.path(path_res, list.files(path_res)))
   
-  # Names for vic input files (coordinates from InnenforNorge.txt)
+  # Names for vic input files (coordinates from InnenforNorge)
   
-  print("Processing InnenforNorge.txt")
+  print("Processing InnenforNorge_20170516")
   
-  df_in_norway <- read.csv("InnenforNorge.txt", header = TRUE, sep = ";")
+  df_in_norway <- read.csv("InnenforNorge_20170516", header = TRUE, sep = ";")
   
   fn_vic_input <- vector(mode = "character", length = nrow(df_in_norway))
   id_bil_file <- vector(mode = "numeric", length = nrow(df_in_norway))
