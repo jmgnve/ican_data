@@ -1,4 +1,4 @@
-write_global_param <- function(path_sim, syear, eyear) {
+write_global_param <- function(path_sim, syear, eyear, timestep = 24, output_force = TRUE) {
   
   library(GetoptLong)
   
@@ -13,8 +13,8 @@ write_global_param <- function(path_sim, syear, eyear) {
   qqcat("#######################################################################\n", file = filename, append = TRUE)
   qqcat("NLAYER		3	# number of soil layers\n", file = filename, append = TRUE)
   qqcat("NODES		3	# number of soil thermal nodes \n", file = filename, append = TRUE)
-  qqcat("TIME_STEP 	24	# model time step in hours (set to 24 if FULL_ENERGY = FALSE, set to < 24 if FULL_ENERGY = TRUE)\n", file = filename, append = TRUE)
-  qqcat("SNOW_STEP	24	# time step in hours for which to solve the snow model (should = TIME_STEP if TIME_STEP < 24)\n", file = filename, append = TRUE)
+  qqcat("TIME_STEP 	@{timestep}	# model time step in hours (set to 24 if FULL_ENERGY = FALSE, set to < 24 if FULL_ENERGY = TRUE)\n", file = filename, append = TRUE)
+  qqcat("SNOW_STEP	@{timestep}	# time step in hours for which to solve the snow model (should = TIME_STEP if TIME_STEP < 24)\n", file = filename, append = TRUE)
   qqcat("STARTYEAR	@{syear}	# year model simulation starts\n", file = filename, append = TRUE)
   qqcat("STARTMONTH	01	# month model simulation starts\n", file = filename, append = TRUE)
   qqcat("STARTDAY	01 	# day model simulation starts\n", file = filename, append = TRUE)
@@ -89,7 +89,7 @@ write_global_param <- function(path_sim, syear, eyear) {
   qqcat("#			# LW_CLOUD_BRAS = method from Bras textbook (this was the traditional VIC algorithm)\n", file = filename, append = TRUE)
   qqcat("#			# LW_CLOUD_DEARDORFF = method of Deardorff (1978)\n", file = filename, append = TRUE)
   qqcat("#			# default = LW_CLOUD_DEARDORFF\n", file = filename, append = TRUE)
-  qqcat("OUTPUT_FORCE	TRUE\n", file = filename, append = TRUE)
+  qqcat("OUTPUT_FORCE	@{output_force}\n", file = filename, append = TRUE)
   qqcat("\n", file = filename, append = TRUE)
   qqcat("#######################################################################\n", file = filename, append = TRUE)
   qqcat("# Miscellaneous Simulation Parameters\n", file = filename, append = TRUE)
@@ -211,7 +211,7 @@ write_global_param <- function(path_sim, syear, eyear) {
   qqcat("OUT_STEP        0       # Output interval (hours); if 0, OUT_STEP = TIME_STEP\n", file = filename, append = TRUE)
   qqcat("SKIPYEAR 	0	# Number of years of output to omit from the output files\n", file = filename, append = TRUE)
   qqcat("COMPRESS	FALSE	# TRUE = compress input and output files when done\n", file = filename, append = TRUE)
-  qqcat("BINARY_OUTPUT	TRUE	# TRUE = binary output files\n", file = filename, append = TRUE)
+  qqcat("BINARY_OUTPUT @{output_force}	# TRUE = binary output files\n", file = filename, append = TRUE)
   qqcat("ALMA_OUTPUT	FALSE	# TRUE = ALMA-format output files; FALSE = standard VIC units\n", file = filename, append = TRUE)
   qqcat("MOISTFRACT 	FALSE	# TRUE = output soil moisture as volumetric fraction; FALSE = standard VIC units\n", file = filename, append = TRUE)
   qqcat("PRT_HEADER	FALSE   # TRUE = insert a header at the beginning of each output file; FALSE = no header\n", file = filename, append = TRUE)
@@ -286,20 +286,22 @@ write_global_param <- function(path_sim, syear, eyear) {
   qqcat("#                    *    = use the default multiplier for this variable\n", file = filename, append = TRUE)
   qqcat("#\n", file = filename, append = TRUE)
   qqcat("#######################################################################\n", file = filename, append = TRUE)
-  qqcat("\n", file = filename, append = TRUE)
-  qqcat("N_OUTFILES    1\n", file = filename, append = TRUE)
-  qqcat("\n", file = filename, append = TRUE)
-  qqcat("OUTFILE       metdata        8 \n", file = filename, append = TRUE)
-  qqcat("\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_PREC	* OUT_TYPE_USINT	40\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_AIR_TEMP	* OUT_TYPE_SINT		100\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_SHORTWAVE	* OUT_TYPE_USINT	50\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_LONGWAVE	* OUT_TYPE_USINT	80\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_PRESSURE	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_QAIR	* OUT_TYPE_USINT	100000\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_VP		* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
-  qqcat("OUTVAR		OUT_WIND	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
   
+  if (output_force) {
+    qqcat("\n", file = filename, append = TRUE)
+    qqcat("N_OUTFILES    1\n", file = filename, append = TRUE)
+    qqcat("\n", file = filename, append = TRUE)
+    qqcat("OUTFILE       metdata        8 \n", file = filename, append = TRUE)
+    qqcat("\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_PREC	* OUT_TYPE_USINT	40\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_AIR_TEMP	* OUT_TYPE_SINT		100\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_SHORTWAVE	* OUT_TYPE_USINT	50\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_LONGWAVE	* OUT_TYPE_USINT	80\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_PRESSURE	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_QAIR	* OUT_TYPE_USINT	100000\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_VP		* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_WIND	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
+  }
   
 }
 
