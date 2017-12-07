@@ -40,7 +40,7 @@ write_met_input <- function(path_sim, syear, eyear) {
   
   print("Processing InnenforNorge_20170516")
   
-  df_in_norway <- read.csv("InnenforNorge_20170516", header = TRUE, sep = ";")
+  df_in_norway <- read.csv("InnenforNorge_20170516.txt", header = TRUE, sep = ";")
   
   fn_vic_input <- vector(mode = "character", length = nrow(df_in_norway))
   id_bil_file <- vector(mode = "numeric", length = nrow(df_in_norway))

@@ -1,4 +1,4 @@
-write_global_param <- function(path_sim, syear, eyear, timestep = 24, output_force = TRUE) {
+write_global_param <- function(path_sim, syear, eyear, timestep = 24, output_force = TRUE, model = "hbv") {
   
   library(GetoptLong)
   
@@ -287,7 +287,7 @@ write_global_param <- function(path_sim, syear, eyear, timestep = 24, output_for
   qqcat("#\n", file = filename, append = TRUE)
   qqcat("#######################################################################\n", file = filename, append = TRUE)
   
-  if (output_force) {
+  if (output_force && model == "hbv") {
     qqcat("\n", file = filename, append = TRUE)
     qqcat("N_OUTFILES    1\n", file = filename, append = TRUE)
     qqcat("\n", file = filename, append = TRUE)
@@ -300,6 +300,22 @@ write_global_param <- function(path_sim, syear, eyear, timestep = 24, output_for
     qqcat("OUTVAR		OUT_PRESSURE	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
     qqcat("OUTVAR		OUT_QAIR	* OUT_TYPE_USINT	100000\n", file = filename, append = TRUE)
     qqcat("OUTVAR		OUT_VP		* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_WIND	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
+  }
+
+  if (output_force && model == "fsm") {
+    qqcat("\n", file = filename, append = TRUE)
+    qqcat("N_OUTFILES    1\n", file = filename, append = TRUE)
+    qqcat("\n", file = filename, append = TRUE)
+    qqcat("OUTFILE       metdata        8 \n", file = filename, append = TRUE)
+    qqcat("\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_RAINF	* OUT_TYPE_USINT	40\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_SNOWF	* OUT_TYPE_USINT	40\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_AIR_TEMP	* OUT_TYPE_SINT		100\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_SHORTWAVE	* OUT_TYPE_USINT	50\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_LONGWAVE	* OUT_TYPE_USINT	80\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_PRESSURE	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
+    qqcat("OUTVAR		OUT_REL_HUMID	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
     qqcat("OUTVAR		OUT_WIND	* OUT_TYPE_USINT	100\n", file = filename, append = TRUE)
   }
   
