@@ -18,13 +18,13 @@ source("vic_global_params.R")
 # Settings
 
 syear <- 2002
-eyear <- 2012
+eyear <- 2005
 timestep <- 3
 model <- "fsm"
 
 # Path for output
 
-path_sim <- "/data02/Ican/vic_sim/past_1km_fsm"
+path_sim <- "/data02/Ican/vic_sim/fsm_past_1km"
 
 # Create paths
 
