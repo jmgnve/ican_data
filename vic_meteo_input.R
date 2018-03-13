@@ -1,11 +1,11 @@
 
-write_met_input <- function(path_sim, syear, eyear, datasource) {
+write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario) {
   
   #########################################################################################################
   
   # Paths to meteorological data
 
-  if (datasource == "obs_hbv") {
+  if (model == "hbv" & climate_model=="obs") {
       
       path_prec_bil <- "//hdata/grid/metdata/met_obs_v2.1/rr"
       path_tmin_bil <- "//hdata/grid2/metdata/klinogrid/tn24h06"
@@ -19,7 +19,7 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
       
   }
 
-  if (datasource == "obs_fsm") {
+  if (model == "fsm" & climate_model=="obs") {
       
       path_prec_bil <- "//hdata/grid2/metdata/met_obs_v2.2/rr"
       path_tmin_bil <- "//hdata/grid2/metdata/klinogrid/tn24h06"
@@ -36,11 +36,20 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
 
 
   ##  PATHS TO CLIMATE MODELS NEEDED HERE
+  if (model == "hbv" & climate_model!="obs") {
+      
+      path_prec_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/rr/binary",sep="")
+      path_tmin_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/tn/binary",sep="")
+      path_tmax_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/tx/binary",sep="")
+      path_wind_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/sfw/binary",sep="")
 
+      scale_prec <- 10
+      scale_tmin <- 100
+      scale_tmax <- 100
+      scale_wind <- 100
+      
+  }
 
-
-
-    
     
   # Path for storing the results
   
@@ -70,23 +79,22 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
   
   df_in_norway <- read.csv("InnenforNorge_20170516.txt", header = TRUE, sep = ";")
   
-  fn_vic_input <- vector(mode = "character", length = nrow(df_in_norway))
-  id_bil_file <- vector(mode = "numeric", length = nrow(df_in_norway))
-  lat <- vector(mode = "numeric", length = nrow(df_in_norway))
-  lon <- vector(mode = "numeric", length = nrow(df_in_norway))
+  #fn_vic_input <- vector(mode = "character", length = nrow(df_in_norway))
+  #id_bil_file <- vector(mode = "numeric", length = nrow(df_in_norway))
+  #lat <- vector(mode = "numeric", length = nrow(df_in_norway))
+  #lon <- vector(mode = "numeric", length = nrow(df_in_norway))
   
-  for (irow in 1:nrow(df_in_norway)) {
+ # for (irow in 1:nrow(df_in_norway)) {
     
-    id_bil_file[irow] <- df_in_norway$TABID[irow] + 1
+    id_bil_file <- df_in_norway$TABID + 1
     
-    lat[irow] <- format(df_in_norway$POINT_Y[irow], nsmall = 5, digits = 5)
-    lon[irow] <- format(df_in_norway$POINT_X[irow], nsmall = 5, digits = 5)
+    lat <- format(df_in_norway$POINT_Y, nsmall = 5, digits = 5)
+    lon <- format(df_in_norway$POINT_X, nsmall = 5, digits = 5)
     
-    file_tmp <- paste("data", lat[irow], lon[irow], sep = "_")
     
-    fn_vic_input[irow] <- file.path(path_met, file_tmp)
+    fn_vic_input <- paste(path_met, "/data_", lat,"_", lon, sep = "")
     
-  }
+  #}
   
   # Loop over years
   
@@ -125,22 +133,26 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         dname <- s3[j]
       }
       
-      time_name <- paste(s1[j],"_",mname,"_",dname,".bil",sep="")
+      time_name <- paste(s1[j],"_",mname,"_",dname,sep="")
       
       # tmax
-      
-      filename <- paste(path_tmax_bil,"/",i,"/tx24h06_",time_name,sep="")
-      
+      if (climate_model == "obs") {
+      filename <- paste(path_tmax_bil,"/",i,"/tx24h06_",time_name,".bil",sep="")
+	  } else {
+	  filename <- paste(path_tmax_bil,"/",i,"/",mname, "/", climate_model,"_tx_",time_name,".bin",sep="")
+       }
+
+	   
       if (file.exists((filename))) {
       
         indata <- file(filename,"rb")
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
         close(indata)
 
-        if (substr(datasource, 1, 3) == "obs") {
+        if (climate_model == "obs") {
            tmax <- (run[id_bil_file]-2731)/scale_tmax
         } else {
-           tmax <- (run-2731)/scale_tmax
+           tmax <- (run-27310)/scale_tmax
         }
           
         if (any(tmax > 100) | any(tmax < -100)) { stop("tmax out of range") }
@@ -152,8 +164,12 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
       }
       
       #tmin
+      if (climate_model == "obs") {
+      filename <- paste(path_tmin_bil,"/",i,"/tn24h06_",time_name,".bil",sep="")
+	  } else {
+	  filename <- paste(path_tmin_bil,"/",i,"/",mname, "/", climate_model,"_tn_",time_name,".bin",sep="")
+       }
       
-      filename <- paste(path_tmin_bil,"/",i,"/tn24h06_",time_name,sep="")
       
       if (file.exists((filename))) {
         
@@ -161,10 +177,10 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
         close(indata)
 
-        if (substr(datasource, 1, 3) == "obs") {
+        if (climate_model == "obs") {
             tmin <- (run[id_bil_file]-2731)/scale_tmin
         } else {
-            tmin <- (run-2731)/scale_tmin
+            tmin <- (run-27310)/scale_tmin
         }
         
         if (any(tmin > 100) | any(tmin < -100)) { stop("tmin out of range") }
@@ -177,8 +193,12 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
       }
       
       # prcp
+	  if (climate_model == "obs") {
+      filename <- paste(path_prec_bil,"/",i,"/rr_",time_name,".bil",sep="")
+	  } else {
+	  filename <- paste(path_prec_bil,"/",i,"/",mname, "/", climate_model,"_rr_",time_name,".bin",sep="")
+       }
       
-      filename <- paste(path_prec_bil,"/",i,"/rr_",time_name,sep="")
       
       if (file.exists((filename))) {
         
@@ -186,7 +206,7 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for precipitation
         close(indata)
 
-        if (substr(datasource, 1, 3) == "obs") {
+        if (climate_model == "obs") {
             pr <- run[id_bil_file]/scale_prec
         } else {
             pr <- run/scale_prec
@@ -201,8 +221,12 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
       }
       
       # wind
+      if (climate_model == "obs") {
+      filename <- paste(path_wind_bil,"/",i,"/ffm24h06_",time_name,".bil",sep="")
+	  } else {
+	  filename <- paste(path_wind_bil,"/",i,"/",mname, "/", climate_model,"_sfw_",time_name,".bin",sep="")
+       }
       
-      filename <- paste(path_wind_bil,"/",i,"/ffm24h06_",time_name,sep="")
       
       if (file.exists((filename))) {
         
@@ -210,7 +234,7 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for wind
         close(indata)
 
-        if (substr(datasource, 1, 3) == "obs") {
+        if (climate_model == "obs") {
             wind <- run[id_bil_file]/scale_wind
         } else {
             wind <- run/scale_wind
