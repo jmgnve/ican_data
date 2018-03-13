@@ -215,21 +215,6 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         
       }
       
-      # Correct precipitation
-      
-      Tmean <- (tmax+tmin)/2
-      Windspeed_at_gauge <- (log(1/0.03)/log(10/0.03))*wind 
-      Windspeed_at_gauge[which(Windspeed_at_gauge>6.5)] <- 6.5
-      
-      select <- which(Tmean< (-1.5))
-      pr[select] <- pr[select]*(1/((100-11.95*Windspeed_at_gauge[select]+Windspeed_at_gauge[select]*Windspeed_at_gauge[select]*0.55)/100))
-      
-      select <- which(Tmean>= (-1.5)&Tmean <0.5)
-      pr[select] <- pr[select]*(1/((100-8.16*Windspeed_at_gauge[select]+Windspeed_at_gauge[select]*Windspeed_at_gauge[select]*0.45)/100))
-      
-      select <- which(Tmean>=0.5)
-      pr[select] <- pr[select]*(1/((100-3.37*Windspeed_at_gauge[select]+Windspeed_at_gauge[select]*Windspeed_at_gauge[select]*0.35)/100))
-      
       # Save the daily outputs into one matrix
       
       iarray = 4*j - 3
