@@ -1,19 +1,37 @@
 
-write_met_input <- function(path_sim, syear, eyear) {
+write_met_input <- function(path_sim, syear, eyear, datasource) {
   
   #########################################################################################################
   
   # Scaling parameter for bil files
   
-  scale <- 10
+  scale <- 10   ### THIS NEEDS CHANGES
   
   # Paths to meteorological data
-  
-  path_prec_bil <- "//hdata/grid/metdata/met_obs_v2.1/rr"
-  path_tmin_bil <- "//hdata/grid2/metdata/klinogrid/tn24h06"
-  path_tmax_bil <- "//hdata/grid2/metdata/klinogrid/tx24h06"
-  path_wind_bil <- "//hdata/grid2/metdata/klinogrid/ffm24h06"
-  
+
+  if (datasource == "observed_hbv") {
+      path_prec_bil <- "//hdata/grid/metdata/met_obs_v2.1/rr"
+      path_tmin_bil <- "//hdata/grid2/metdata/klinogrid/tn24h06"
+      path_tmax_bil <- "//hdata/grid2/metdata/klinogrid/tx24h06"
+      path_wind_bil <- "//hdata/grid2/metdata/klinogrid/ffm24h06"
+  }
+
+  if (datasource == "observed_fsm") {
+      path_prec_bil <- "//hdata/grid2/metdata/met_obs_v2.2/rr"
+      path_tmin_bil <- "//hdata/grid2/metdata/klinogrid/tn24h06"
+      path_tmax_bil <- "//hdata/grid2/metdata/klinogrid/tx24h06"
+      path_wind_bil <- "//hdata/grid2/metdata/klinogrid/ffm24h06"
+  }
+
+
+
+  ##  PATHS TO CLIMATE MODELS NEEDED HERE
+
+
+
+
+    
+    
   # Path for storing the results
   
   path_met <- file.path(path_sim, "forcing")
@@ -63,7 +81,7 @@ write_met_input <- function(path_sim, syear, eyear) {
   # Loop over years
   
   pr_acc <- 0  # Array for computing accumulated precipitation
-  ndays <- 0  # Number of days
+  ndays <- 0   # Number of days
   nwrong <- 0  # Number of days with tmax<tmin
   
   nyear <- length(syear:eyear)
