@@ -5,7 +5,7 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
   
   # Paths to meteorological data
 
-  if (datasource == "observed_hbv") {
+  if (datasource == "obs_hbv") {
       
       path_prec_bil <- "//hdata/grid/metdata/met_obs_v2.1/rr"
       path_tmin_bil <- "//hdata/grid2/metdata/klinogrid/tn24h06"
@@ -19,7 +19,7 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
       
   }
 
-  if (datasource == "observed_fsm") {
+  if (datasource == "obs_fsm") {
       
       path_prec_bil <- "//hdata/grid2/metdata/met_obs_v2.2/rr"
       path_tmin_bil <- "//hdata/grid2/metdata/klinogrid/tn24h06"
@@ -136,9 +136,13 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         indata <- file(filename,"rb")
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
         close(indata)
-        
-        tmax <- (run[id_bil_file]-2731)/scale_tmax
-        
+
+        if (substr(datasource, 1, 3) == "obs") {
+           tmax <- (run[id_bil_file]-2731)/scale_tmax
+        } else {
+           tmax <- (run-2731)/scale_tmax
+        }
+          
         if (any(tmax > 100) | any(tmax < -100)) { stop("tmax out of range") }
         
       } else {
@@ -156,8 +160,12 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         indata <- file(filename,"rb")
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
         close(indata)
-        
-        tmin <- (run[id_bil_file]-2731)/scale_tmin
+
+        if (substr(datasource, 1, 3) == "obs") {
+            tmin <- (run[id_bil_file]-2731)/scale_tmin
+        } else {
+            tmin <- (run-2731)/scale_tmin
+        }
         
         if (any(tmin > 100) | any(tmin < -100)) { stop("tmin out of range") }
         
@@ -177,8 +185,12 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         indata <- file(filename,"rb")
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for precipitation
         close(indata)
-        
-        pr <- run[id_bil_file]/scale_prec
+
+        if (substr(datasource, 1, 3) == "obs") {
+            pr <- run[id_bil_file]/scale_prec
+        } else {
+            pr <- run/scale_prec
+        }
         
         if (any(pr > 1000) | any(pr < -10)) { stop("pr out of range") }
         
@@ -197,8 +209,12 @@ write_met_input <- function(path_sim, syear, eyear, datasource) {
         indata <- file(filename,"rb")
         run <- readBin(indata, integer(), n=1195*1550, size=2)   # for wind
         close(indata)
-        
-        wind <- run[id_bil_file]/scale_wind
+
+        if (substr(datasource, 1, 3) == "obs") {
+            wind <- run[id_bil_file]/scale_wind
+        } else {
+            wind <- run/scale_wind
+        }
         
         if (any(wind > 1000) | any(wind < -10)) { stop("wind out of range") }
         
