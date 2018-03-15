@@ -64,7 +64,7 @@ append_soil_file = function(path_sim, soil_param, init_file) {
   
   # Filename
   
-  filename = file.path(path_sim, "/params/soil_param")
+  filename = file.path(path_sim, "params/soil_param")
   
   # CHECK THAT RESIDUAL MOISTURE AND PERMANENT WILTING POINT ARE COMPATIBLE
   
@@ -180,6 +180,9 @@ write_soil_params <- function(path_sim) {
   filename <- file.path(path_sim, "annual_prec.txt")
   
   df_prec <- read.csv(filename, header = TRUE, sep = ";")
+  
+  # create folder params
+  system(paste("mkdir ",path_sim,"/params",sep=""))
   
   
   # Loop through grid cells in Norway

@@ -19,5 +19,5 @@ run_vic <- function(syear, eyear, timestep, model, path_sim,output_force) {
 
   # Run VIC-MTCLIM
 
-  system(paste("/home/jmg/projects/vic_mtclim/src/./vicNl -g ", path_sim, "/params/global_param", sep = ""))
+  system(paste("/felles/jmg/VIC.4.2.d/src/./vicNl -g ", path_sim, "/params/global_param", sep = ""))
   }
