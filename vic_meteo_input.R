@@ -92,7 +92,7 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
     lon <- format(df_in_norway$POINT_X, nsmall = 5, digits = 5)
     
     
-    fn_vic_input <- paste(path_met, "/data_", lat,"_", lon, sep = "")
+        fn_vic_input <- paste(path_met, "/data_", trimws(lat),"_", trimws(lon), sep = "")
     
   #}
   
