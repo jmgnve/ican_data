@@ -43,7 +43,7 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
       path_tmax_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/tx/binary",sep="")
       path_wind_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/sfw/binary",sep="")
 
-      scale_prec <- 10
+      scale_prec <- 100
       scale_tmin <- 100
       scale_tmax <- 100
       scale_wind <- 100
@@ -203,7 +203,7 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
       if (file.exists((filename))) {
         
         indata <- file(filename,"rb")
-        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for precipitation
+        run <- readBin(indata, integer(), n=1195*1550, size=2, signed = F)   # for precipitation
         close(indata)
 
         if (climate_model == "obs") {
