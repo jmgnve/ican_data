@@ -6,7 +6,11 @@ path_sim = "/data02/Ican/vic_sim/past_1km"
 path_result <- "/data02/Ican/vic_sim/past_1km/bil/"
 
 
+<<<<<<< HEAD
 file_id <- read.table("/home/shh/project/Ican/Github/ican_data/InnenforNorge.txt", header=T,sep=";")
+=======
+file_id <- read.table("/home/shh/project/Ican/Github/ican_data/InnenforNorge_2017.txt", header=T,sep=";")
+>>>>>>> e2539d24300036fcea250c95423f498280307f1d
 n_id <- length(file_id[,1])
 
 syear <- 1982

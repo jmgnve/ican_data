@@ -43,6 +43,7 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
       path_tmax_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/tx/binary",sep="")
       path_wind_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/sfw/binary",sep="")
 
+<<<<<<< HEAD
       scale_prec <- 100
       scale_tmin <- 100
       scale_tmax <- 100
@@ -92,7 +93,10 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
     lon <- format(df_in_norway$POINT_X, nsmall = 5, digits = 5)
     
     
+
     fn_vic_input <- paste(path_met, "/data_", trimws(lat),"_", trimws(lon), sep = "")
+
+
     
   #}
   
@@ -146,7 +150,7 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
       if (file.exists((filename))) {
       
         indata <- file(filename,"rb")
-        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
+        run <- readBin(indata, integer(), n=1195*1550, size=2, signed = F)   # for temperature
         close(indata)
 
         if (climate_model == "obs") {
@@ -174,7 +178,7 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
       if (file.exists((filename))) {
         
         indata <- file(filename,"rb")
-        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for temperature
+        run <- readBin(indata, integer(), n=1195*1550, size=2, signed = F)   # for temperature
         close(indata)
 
         if (climate_model == "obs") {
@@ -231,7 +235,7 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
       if (file.exists((filename))) {
         
         indata <- file(filename,"rb")
-        run <- readBin(indata, integer(), n=1195*1550, size=2)   # for wind
+        run <- readBin(indata, integer(), n=1195*1550, size=2, signed = F)   # for wind
         close(indata)
 
         if (climate_model == "obs") {
