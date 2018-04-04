@@ -43,7 +43,6 @@ write_met_input <- function(path_sim, syear, eyear,model, climate_model,scenario
       path_tmax_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/tx/binary",sep="")
       path_wind_bil <- paste("/data02/Ican/data/metdata/",climate_model,"/Corr_", scenario,"/sfw/binary",sep="")
 
-<<<<<<< HEAD
       scale_prec <- 100
       scale_tmin <- 100
       scale_tmax <- 100
