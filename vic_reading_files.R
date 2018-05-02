@@ -72,7 +72,7 @@ read_met_input <- function(filename) {
 
 # Read binary vic output file
 
-read_met_output <- function(filename,nyear) {
+read_met_output <- function(filename,nyear,model) {
   
   #ptm <- proc.time()
   
@@ -86,20 +86,39 @@ read_met_output <- function(filename,nyear) {
   nrec <- nall/8
   selec <- seq(1,(nrec-1)*8+1,8)
   
-  prec <- all[selec]/40
-  tair <- all[(selec+1)]/100
-  iswr <- all[(selec+2)]/50
-  ilwr <- all[(selec+3)]/80
-  pres <- all[(selec+4)]/100
-  qair <- all[(selec+5)]/100000
-  vp   <- all[(selec+6)]/100
-  wind <- all[(selec+7)]/100
+  if (model == "hbv") {
+     prec <- all[selec]/40
+     tair <- all[(selec+1)]/100
+     iswr <- all[(selec+2)]/50
+     ilwr <- all[(selec+3)]/80
+     pres <- all[(selec+4)]/100
+     qair <- all[(selec+5)]/100000
+     vp   <- all[(selec+6)]/100
+     wind <- all[(selec+7)]/100
+    
+     # Return results
+  
+     return(list(prec = prec, tair = tair, iswr = iswr, ilwr = ilwr,
+                 pres = pres, qair = qair, vp = vp, wind = wind))
+  
+  }
+  
+  if (model == "fsm") {
+     rainf <- all[selec]/40
+     snowf <- all[(selec+1)]/40
+     tair  <- all[(selec+2)]/100
+     iswr  <- all[(selec+3)]/50
+     ilwr  <- all[(selec+4)]/80
+     pres  <- all[(selec+5)]/100
+     rh    <- all[(selec+6)]/100
+     wind  <- all[(selec+7)]/100
 
-  
-  # Return results
-  
-  return(list(prec = prec, tair = tair, iswr = iswr, ilwr = ilwr,
-              pres = pres, qair = qair, vp = vp, wind = wind))
+     # Return results
+
+     return(list(rainf = rainf, snowf = snowf, tair = tair, iswr = iswr,
+     		 ilwr = ilwr, pres = pres, rh = rh, wind = wind))     
+
+  }
   
 }
 
