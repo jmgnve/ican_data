@@ -15,8 +15,8 @@ source("run_mtclim.R")
 
 # Settings
 
-syear <- 2002
-eyear <- 2003
+syear <- 2008
+eyear <- 2011
 timestep <- 3
 model <- "fsm"
 climate_model <- "obs"
@@ -38,7 +38,7 @@ write_met_input(path_sim, syear, eyear, model, climate_model, scenario)
 
 # Run mtclim
 
-run_vic(syear, eyear, timestep, model, path_sim)
+run_vic(syear, eyear, timestep, model, path_sim, output_force)
 
 
 
