@@ -25,7 +25,7 @@ output_force <- TRUE
 
 # Path for output
 
-path_sim <- "/data02/Ican/vic_sim/fsm_past_test"
+path_sim <- "/data04/jmg/fsm_simulations"
 
 # Create paths
 
